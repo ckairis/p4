@@ -251,7 +251,8 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	@Override
 	public List<IntervalADT<T>> searchPoint(T point) {
 		// TODO Auto-generated method stub
-		return this.searchPointHelper(point, root);
+		ArrayList<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
+		return searchPointHelper(point, list, root);
 	}
 	
 	/**
@@ -263,10 +264,10 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	 * @param node
 	 * @return list; A list of all intervals containing the point.
 	 */
-	private List<IntervalADT<T>> searchPointHelper(T point,
-			IntervalNode<T> node){
+	private ArrayList<IntervalADT<T>> searchPointHelper(T point,
+			ArrayList<IntervalADT<T>> list, IntervalNode<T> node){
 		
-		List<IntervalADT<T>> list = new LinkedList<IntervalADT<T>>();
+		
 		if(null == node){
 			return list;
 		}
@@ -274,8 +275,12 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 		if(interval.contains(point)){
 			list.add(interval);
 		}
-		list.addAll(this.searchPointHelper(point, node.getLeftNode()));
-		list.addAll(this.searchPointHelper(point, node.getLeftNode()));
+		
+		//list = Overlap(interval, list, node.getLeftNode());
+		//list = Overlap(interval, list, node.getRightNode());
+		
+		list = searchPointHelper(point, list, node.getLeftNode());
+		list = searchPointHelper(point, list, node.getRightNode());
 		
 		return list;
 }
